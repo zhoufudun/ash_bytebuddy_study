@@ -46,7 +46,7 @@ public class ByteBuddyCreateClassTest {
      * 根据官方教程可以看出来, 生成的新类默认命名策略即:
      *  <ol>
      *    <li>父类是jdk自带类: {超类名}$ByteBuddy${随机字符串}</li>
-     *    <li>父类非jdk自带类: net.bytebuddy.renamed{超类名}$ByteBuddy${随机字符串}</li>
+     *    <li>父类非jdk自带类: net.bytebuddy.renamed.{超类名}$ByteBuddy${随机字符串}</li>
      *  </ol>
      * </p>
      */

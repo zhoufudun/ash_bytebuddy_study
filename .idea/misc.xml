@@ -4,14 +4,24 @@
     <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
     <groovy codeStyle="LEGACY" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/simple_jar/ear/pom.xml" />
+        <option value="$PROJECT_DIR$/simple_jar/ejbs/pom.xml" />
+        <option value="$PROJECT_DIR$/simple_jar/primary-source/pom.xml" />
+        <option value="$PROJECT_DIR$/simple_jar/projects/pom.xml" />
+        <option value="$PROJECT_DIR$/simple_jar/servlets/pom.xml" />
+      </set>
+    </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

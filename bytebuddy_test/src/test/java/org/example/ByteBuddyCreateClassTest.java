@@ -4,10 +4,13 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.FixedValue;
+import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +24,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test05()}: 尝试指定不合法的类名, 由于Byte Buddy本身带有字节码校验逻辑, 会提前报错</li>
  *     <li>{@link ByteBuddyCreateClassTest#test06()}: 指定不合法类名, 关闭Byte Buddy自带的字节码校验逻辑(该校验虽耗费性能, 但一般对项目影响不大, 也不建议关闭)</li>
  *     <li>{@link ByteBuddyCreateClassTest#test07()}: 将生成的字节码, 注入一个jar包中</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test08()}: 对实例方法插桩(stub), 修改原本的toString方法逻辑</li>
  *   </ol>
  * </p>
  *
@@ -183,5 +187,36 @@ public class ByteBuddyCreateClassTest {
         // File jarFile = new File( simpleJarModulePath + "/target/simple_jar-1.0-SNAPSHOT.jar");
         // 本地打开jar可以看到新生成的class文件也在其中
         // nothingClassSubClass.inject(jarFile);
+    }
+
+    /**
+     * (8) 对实例方法插桩(stub), 修改原本的toString方法逻辑
+     */
+    @Test
+    public void test08() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        // 1. 声明一个未加载到ClassLoader中的 Byte Buddy 对象
+        DynamicType.Unloaded<NothingClass> nothingClassUnloaded = new ByteBuddy()
+                // 指定 超类 NothingClass
+                .subclass(NothingClass.class)
+                // 指定要拦截(插桩)的方法
+                .method(ElementMatchers.named("toString"))
+                // 指定拦截(插桩)后的逻辑, 这里设置直接返回指定值
+                .intercept(FixedValue.value("just nothing."))
+                .name("com.example.AshiamdTest08")
+                .make();
+        // 2. 将 类加载到 App ClassLoader 中
+        ClassLoader currentClassLoader = getClass().getClassLoader();
+        Assert.assertEquals("app", currentClassLoader.getName());
+        Assert.assertEquals("jdk.internal.loader.ClassLoaders$AppClassLoader",
+                currentClassLoader.getClass().getName());
+        DynamicType.Loaded<NothingClass> loadedType = nothingClassUnloaded.load(currentClassLoader);
+        // 3. 反射调用 toString方法, 验证方法内逻辑被我们修改
+        Class<? extends NothingClass> loadedClazz = loadedType.getLoaded();
+        Assert.assertEquals("net.bytebuddy.dynamic.loading.ByteArrayClassLoader",
+                loadedClazz.getClassLoader().getClass().getName());
+        NothingClass subNothingObj = loadedClazz.getDeclaredConstructor().newInstance();
+        Assert.assertEquals("just nothing.", subNothingObj.toString());
+        // 4. 将字节码写入本地
+        loadedType.saveIn(DemoTools.currentClassPathFile());
     }
 }

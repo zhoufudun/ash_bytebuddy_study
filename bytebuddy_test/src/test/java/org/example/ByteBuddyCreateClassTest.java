@@ -2,6 +2,7 @@ package org.example;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
+import net.bytebuddy.description.type.TypeDefinition;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
@@ -13,6 +14,8 @@ import org.junit.Test;
 import javax.lang.model.type.NullType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +33,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test09()}: 通过subclass继承类, 重写父类方法</li>
  *     <li>{@link ByteBuddyCreateClassTest#test10()}: rebase变基, 原方法保留变为private且被改名(增加$original${随机字符串}后缀), 原方法名内逻辑替换成我们指定的逻辑</li>
  *     <li>{@link ByteBuddyCreateClassTest#test11()}: redefine重定义, 重写指定的方法, 原方法逻辑不保留(被我们指定的逻辑覆盖掉)</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test12()}: redefine基础上, 增加新方法</li>
  *   </ol>
  * </p>
  *
@@ -285,4 +289,20 @@ public class ByteBuddyCreateClassTest {
         // redefine.saveIn(DemoTools.currentClassPathFile());
     }
 
+    /**
+     * (12) redefine基础上, 增加新方法
+     */
+    @Test
+    public void test12() throws IOException {
+        DynamicType.Unloaded<NothingClass> redefine = new ByteBuddy().redefine(NothingClass.class)
+                // 定义方法的 方法名, 方法返回值类型, 方法访问修饰符
+                .defineMethod("returnBlankString", String.class, Modifier.PUBLIC | Modifier.STATIC)
+                // 定义方法的形参
+                .withParameters(String.class, Integer.class)
+                // 定义方法体内逻辑
+                .intercept(FixedValue.value(""))
+                .name("com.example.AshiamdTest12")
+                .make();
+        // redefine.saveIn(DemoTools.currentClassPathFile());
+    }
 }

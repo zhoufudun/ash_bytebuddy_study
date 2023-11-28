@@ -2,6 +2,7 @@ package org.example;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
+import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FixedValue;
@@ -9,6 +10,7 @@ import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.lang.model.type.NullType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test06()}: 指定不合法类名, 关闭Byte Buddy自带的字节码校验逻辑(该校验虽耗费性能, 但一般对项目影响不大, 也不建议关闭)</li>
  *     <li>{@link ByteBuddyCreateClassTest#test07()}: 将生成的字节码, 注入一个jar包中</li>
  *     <li>{@link ByteBuddyCreateClassTest#test08()}: 对实例方法插桩(stub), 修改原本的toString方法逻辑</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test09()}: 通过subclass继承类, 重写父类方法</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test10()}: rebase变基, 原方法保留变为private且被改名(增加$original${随机字符串}后缀), 原方法名内逻辑替换成我们指定的逻辑</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test11()}: redefine重定义, 重写指定的方法, 原方法逻辑不保留(被我们指定的逻辑覆盖掉)</li>
  *   </ol>
  * </p>
  *
@@ -204,7 +209,7 @@ public class ByteBuddyCreateClassTest {
                 .intercept(FixedValue.value("just nothing."))
                 .name("com.example.AshiamdTest08")
                 .make();
-        // 2. 将 类加载到 App ClassLoader 中
+        // 2. 将类通过 AppClassLoader 加载到 JVM 中
         ClassLoader currentClassLoader = getClass().getClassLoader();
         Assert.assertEquals("app", currentClassLoader.getName());
         Assert.assertEquals("jdk.internal.loader.ClassLoaders$AppClassLoader",
@@ -219,4 +224,65 @@ public class ByteBuddyCreateClassTest {
         // 4. 将字节码写入本地
         loadedType.saveIn(DemoTools.currentClassPathFile());
     }
+
+    /**
+     * (9) 通过subclass继承类, 重写父类方法
+     */
+    @Test
+    public void test09() throws IOException {
+        DynamicType.Unloaded<SomethingClass> subClass = new ByteBuddy().subclass(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName")
+                        // 注意实际字节码Local Variable 0 位置为this引用, 但是这里说的参数位置index只需要关注方法声明时的参数顺序, 无需关注隐性参数this引用
+                        .and(ElementMatchers.takesArgument(0, Long.class))
+                        // .and(ElementMatchers.returns(Objects.class)) 匹配不到
+                        .and(ElementMatchers.returns(String.class))
+                )
+                .intercept(FixedValue.value("ashiamd"))
+                .name("com.example.AshiamdTest09")
+                .make();
+         // subClass.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (10) rebase变基, 原方法保留变为private且被改名(增加$original${随机字符串}后缀), 原方法名内逻辑替换成我们指定的逻辑
+     */
+    @Test
+    public void test10() throws IOException {
+        DynamicType.Unloaded<SomethingClass> rebase = new ByteBuddy()
+                .rebase(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName")
+                        // 注意实际字节码Local Variable 0 位置为this引用, 但是这里说的参数位置index只需要关注方法声明时的参数顺序, 无需关注隐性参数this引用
+                        .and(ElementMatchers.takesArgument(0, Long.class))
+                        // .and(ElementMatchers.returns(Objects.class)) 匹配不到
+                        .and(ElementMatchers.returns(String.class))
+                )
+                .intercept(FixedValue.value("ashiamd"))
+                .method(ElementMatchers.named("getAge"))
+                .intercept(FixedValue.value(0))
+                .name("com.example.AshiamdTest10")
+                .make();
+        // rebase.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (11) redefine重定义, 重写指定的方法, 原方法逻辑不保留(被我们指定的逻辑覆盖掉)
+     */
+    @Test
+    public void test11() throws IOException {
+        DynamicType.Unloaded<SomethingClass> redefine = new ByteBuddy()
+                .redefine(SomethingClass.class)
+                .method(ElementMatchers.named("print")
+                        // 不匹配 .and(ElementMatchers.returns(NullType.class))
+                        // 不匹配 .and(ElementMatchers.returnsGeneric(Void.class))
+                        // 不匹配 .and(ElementMatchers.returns(TypeDescription.ForLoadedType.of(Void.class)))
+                        // 不匹配 .and(ElementMatchers.returns(Void.class))
+                        // 匹配 .and(ElementMatchers.returns(TypeDescription.VOID))
+                        // 匹配 .and(ElementMatchers.returns(void.class))
+                )
+                .intercept(FixedValue.value(TypeDescription.ForLoadedType.of(Void.class)))
+                .name("com.example.AshiamdTest11")
+                .make();
+        // redefine.saveIn(DemoTools.currentClassPathFile());
+    }
+
 }

@@ -5,7 +5,9 @@ import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.description.type.TypeDefinition;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.Transformer;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
+import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test10()}: rebase变基, 原方法保留变为private且被改名(增加$original${随机字符串}后缀), 原方法名内逻辑替换成我们指定的逻辑</li>
  *     <li>{@link ByteBuddyCreateClassTest#test11()}: redefine重定义, 重写指定的方法, 原方法逻辑不保留(被我们指定的逻辑覆盖掉)</li>
  *     <li>{@link ByteBuddyCreateClassTest#test12()}: redefine基础上, 增加新方法</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test13()}: 增加新成员变量, 以及生成对应的getter, setter方法</li>
  *   </ol>
  * </p>
  *
@@ -304,5 +307,23 @@ public class ByteBuddyCreateClassTest {
                 .name("com.example.AshiamdTest12")
                 .make();
         // redefine.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (13) 增加新成员变量, 以及生成对应的getter, setter方法
+     */
+    @Test
+    public void test13() throws IOException {
+        DynamicType.Unloaded<NothingClass> ageBean = new ByteBuddy().subclass(NothingClass.class)
+                // 定义新增的字段 name, type, 访问描述符
+                .defineField("age", int.class, Modifier.PRIVATE)
+                // 指定类实现指定接口(接口内定义我们需要的getter和setter方法)
+                .implement(IAgeBean.class)
+                // 指定实现接口的逻辑
+                // ok .intercept(FieldAccessor.ofField("age"))
+                .intercept(FieldAccessor.ofBeanProperty())
+                .name("com.example.AshiamdTest13")
+                .make();
+        ageBean.saveIn(DemoTools.currentClassPathFile());
     }
 }

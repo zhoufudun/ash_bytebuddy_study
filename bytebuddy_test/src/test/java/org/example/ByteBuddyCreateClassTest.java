@@ -2,22 +2,19 @@ package org.example;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
-import net.bytebuddy.description.type.TypeDefinition;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.dynamic.Transformer;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.FixedValue;
+import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.lang.model.type.NullType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -37,6 +34,9 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test11()}: redefine重定义, 重写指定的方法, 原方法逻辑不保留(被我们指定的逻辑覆盖掉)</li>
  *     <li>{@link ByteBuddyCreateClassTest#test12()}: redefine基础上, 增加新方法</li>
  *     <li>{@link ByteBuddyCreateClassTest#test13()}: 增加新成员变量, 以及生成对应的getter, setter方法</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test14()}: 将拦截的方法委托给相同方法签名的静态方法进行修改/增强</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test15()}: 将拦截的方法委托给相同方法签名的实例方法进行修改/增强</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test16()}: 将将拦截的方法委托给自定义方法进行修改/增强</li>
  *   </ol>
  * </p>
  *
@@ -247,7 +247,7 @@ public class ByteBuddyCreateClassTest {
                 .intercept(FixedValue.value("ashiamd"))
                 .name("com.example.AshiamdTest09")
                 .make();
-         // subClass.saveIn(DemoTools.currentClassPathFile());
+        // subClass.saveIn(DemoTools.currentClassPathFile());
     }
 
     /**
@@ -324,6 +324,80 @@ public class ByteBuddyCreateClassTest {
                 .intercept(FieldAccessor.ofBeanProperty())
                 .name("com.example.AshiamdTest13")
                 .make();
-        ageBean.saveIn(DemoTools.currentClassPathFile());
+        // ageBean.saveIn(DemoTools.currentClassPathFile());
     }
+
+    /**
+     * (14) 将拦截的方法委托给相同方法签名的静态方法进行修改/增强
+     */
+    @Test
+    public void test14() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        DynamicType.Unloaded<SomethingClass> subClassUnloaded = new ByteBuddy().subclass(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName"))
+                // 将 selectUserName 方法委托给 SomethingInterceptor01 中的 相同方法签名(方法描述符)的静态方法 进行修改/增强
+                .intercept(MethodDelegation.to(SomethingInterceptor01.class))
+                .name("com.example.AshiamdTest14")
+                .make();
+        // 前置 saveIn则在 subClassUnloaded.load(getClass().getClassLoader()) 报错 java.lang.IllegalStateException: Class already loaded: class com.example.AshiamdTest14
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+        // 加载类
+        String returnStr = subClassUnloaded.load(getClass().getClassLoader())
+                .getLoaded()
+                // 实例化并调用 selectUserName 方法验证是否被修改/增强
+                .getConstructor()
+                .newInstance()
+                .selectUserName(1L);
+        Assert.assertEquals("SomethingInterceptor01.selectUserName, userId: 1", returnStr);
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (15) 将拦截的方法委托给相同方法签名的实例方法进行修改/增强
+     */
+    @Test
+    public void test15() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        DynamicType.Unloaded<SomethingClass> subClassUnloaded = new ByteBuddy().subclass(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName"))
+                // 将 selectUserName 方法委托给 SomethingInterceptor02 中的 相同方法签名(方法描述符)的实例方法 进行修改/增强
+                .intercept(MethodDelegation.to(new SomethingInterceptor02()))
+                .name("com.example.AshiamdTest15")
+                .make();
+        // 前置 saveIn则在 subClassUnloaded.load(getClass().getClassLoader()) 报错 java.lang.IllegalStateException: Class already loaded: class com.example.AshiamdTest14
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+        // 加载类
+        String returnStr = subClassUnloaded.load(getClass().getClassLoader())
+                .getLoaded()
+                // 实例化并调用 selectUserName 方法验证是否被修改/增强
+                .getConstructor()
+                .newInstance()
+                .selectUserName(2L);
+        Assert.assertEquals("SomethingInterceptor02.selectUserName, userId: 2", returnStr);
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (16) 将拦截的方法委托给自定义方法
+     */
+    @Test
+    public void test16() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        DynamicType.Unloaded<SomethingClass> subClassUnloaded = new ByteBuddy().subclass(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName"))
+                // 将 selectUserName 方法委托给 SomethingInterceptor03 进行修改/增强
+                .intercept(MethodDelegation.to(new SomethingInterceptor03()))
+                .name("com.example.AshiamdTest16")
+                .make();
+        // 前置 saveIn则在 subClassUnloaded.load(getClass().getClassLoader()) 报错 java.lang.IllegalStateException: Class already loaded: class com.example.AshiamdTest14
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+        // 加载类
+        String returnStr = subClassUnloaded.load(getClass().getClassLoader())
+                .getLoaded()
+                // 实例化并调用 selectUserName 方法验证是否被修改/增强
+                .getConstructor()
+                .newInstance()
+                .selectUserName(3L);
+        // returnStr = 3
+        System.out.println("returnStr = " + returnStr);
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
+
 }

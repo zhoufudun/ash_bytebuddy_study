@@ -22,4 +22,8 @@ public class SomethingClass {
     public int getAge() {
         return Integer.MAX_VALUE;
     }
+
+    public static void sayWhat(String whatToSay) {
+        System.out.println("what to Say, say: " + whatToSay);
+    }
 }

@@ -2,6 +2,7 @@ package org.example;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
+import net.bytebuddy.description.ModifierReviewable;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
@@ -16,6 +17,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
@@ -41,6 +43,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test16()}: 将将拦截的方法委托给自定义方法进行修改/增强</li>
  *     <li>{@link ByteBuddyCreateClassTest#test17()}: 通过@Morph动态修改方法入参</li>
  *     <li>{@link ByteBuddyCreateClassTest#test18()}: 对构造方法插桩</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test19()}: 对静态方法插桩</li>
  *   </ol>
  * </p>
  *
@@ -447,6 +450,26 @@ public class ByteBuddyCreateClassTest {
                 // 实例化并调用 selectUserName 方法验证是否被修改/增强
                 .getConstructor()
                 .newInstance();
-        subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (19) 对静态方法插桩
+     */
+    @Test
+    public void test19() throws InvocationTargetException, IllegalAccessException, IOException, NoSuchMethodException {
+        DynamicType.Unloaded<SomethingClass> sayWhatUnload = new ByteBuddy().rebase(SomethingClass.class)
+                // 拦截 名为 "sayWhat" 的静态方法
+                .method(ElementMatchers.named("sayWhat").and(ModifierReviewable.OfByteCodeElement::isStatic))
+                // 拦截后的修改/增强逻辑
+                .intercept(MethodDelegation.to(new SomethingInterceptor06()))
+                .name("com.example.AshiamdTest19")
+                .make();
+        // 调用类静态方法, 验证是否执行了增强逻辑
+        Class<? extends SomethingClass> loadedClazz = sayWhatUnload.load(getClass().getClassLoader())
+                .getLoaded();
+        Method sayWhatMethod = loadedClazz.getMethod("sayWhat", String.class);
+        sayWhatMethod.invoke(null, "hello world");
+        // sayWhatUnload.saveIn(DemoTools.currentClassPathFile());
     }
 }

@@ -8,6 +8,7 @@ import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.SuperMethodCall;
 import net.bytebuddy.implementation.bind.annotation.Morph;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test15()}: 将拦截的方法委托给相同方法签名的实例方法进行修改/增强</li>
  *     <li>{@link ByteBuddyCreateClassTest#test16()}: 将将拦截的方法委托给自定义方法进行修改/增强</li>
  *     <li>{@link ByteBuddyCreateClassTest#test17()}: 通过@Morph动态修改方法入参</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test18()}: 对构造方法插桩</li>
  *   </ol>
  * </p>
  *
@@ -424,6 +426,27 @@ public class ByteBuddyCreateClassTest {
                 .selectUserName(3L);
         // 符合预期，第一个参数被修改+1
         Assert.assertEquals("4", returnStr);
+        // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (18) 对构造方法插桩
+     */
+    @Test
+    public void test18() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        DynamicType.Unloaded<SomethingClass> subClassUnloaded = new ByteBuddy().subclass(SomethingClass.class)
+                // 对任何构造方法都进行插桩
+                .constructor(ElementMatchers.any())
+                // 表示在被拦截的构造方法原方法逻辑执行完后，再委托给拦截器
+                .intercept(SuperMethodCall.INSTANCE.andThen(
+                        MethodDelegation.to(new SomethingInterceptor05())))
+                .name("com.example.AshiamdTest18")
+                .make();
+        subClassUnloaded.load(getClass().getClassLoader())
+                .getLoaded()
+                // 实例化并调用 selectUserName 方法验证是否被修改/增强
+                .getConstructor()
+                .newInstance();
         subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
     }
 }

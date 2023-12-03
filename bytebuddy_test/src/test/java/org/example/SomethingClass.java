@@ -7,6 +7,10 @@ package org.example;
  * @date : 2023/11/28 4:55 PM
  */
 public class SomethingClass {
+
+    public SomethingClass() {
+        System.out.println("SomethingClass()");
+    }
     public String selectUserName(Long userId) {
         return String.valueOf(userId);
     }

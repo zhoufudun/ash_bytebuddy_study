@@ -8,6 +8,7 @@ import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.Morph;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test14()}: 将拦截的方法委托给相同方法签名的静态方法进行修改/增强</li>
  *     <li>{@link ByteBuddyCreateClassTest#test15()}: 将拦截的方法委托给相同方法签名的实例方法进行修改/增强</li>
  *     <li>{@link ByteBuddyCreateClassTest#test16()}: 将将拦截的方法委托给自定义方法进行修改/增强</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test17()}: 通过@Morph动态修改方法入参</li>
  *   </ol>
  * </p>
  *
@@ -400,4 +402,28 @@ public class ByteBuddyCreateClassTest {
         // subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
     }
 
+    /**
+     * (17) 通过@Morph动态修改方法入参
+     */
+    @Test
+    public void test17() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
+        DynamicType.Unloaded<SomethingClass> subClassUnloaded = new ByteBuddy().subclass(SomethingClass.class)
+                .method(ElementMatchers.named("selectUserName"))
+                .intercept(MethodDelegation
+                        .withDefaultConfiguration()
+                        // 向Byte Buddy 注册 用于中转目标方法入参和返回值的 函数式接口
+                        .withBinders(Morph.Binder.install(MyCallable.class))
+                        .to(new SomethingInterceptor04()))
+                .name("com.example.AshiamdTest17")
+                .make();
+        String returnStr = subClassUnloaded.load(getClass().getClassLoader())
+                .getLoaded()
+                // 实例化并调用 selectUserName 方法验证是否被修改/增强
+                .getConstructor()
+                .newInstance()
+                .selectUserName(3L);
+        // 符合预期，第一个参数被修改+1
+        Assert.assertEquals("4", returnStr);
+        subClassUnloaded.saveIn(DemoTools.currentClassPathFile());
+    }
 }

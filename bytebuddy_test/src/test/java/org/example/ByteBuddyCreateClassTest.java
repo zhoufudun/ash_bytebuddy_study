@@ -8,12 +8,10 @@ import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
-import net.bytebuddy.implementation.FieldAccessor;
-import net.bytebuddy.implementation.FixedValue;
-import net.bytebuddy.implementation.MethodDelegation;
-import net.bytebuddy.implementation.SuperMethodCall;
+import net.bytebuddy.implementation.*;
 import net.bytebuddy.implementation.bind.annotation.Morph;
 import net.bytebuddy.jar.asm.Type;
+import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.pool.TypePool;
 import org.junit.Assert;
@@ -54,6 +52,8 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test22()}: 类加载策略`CHILD_FIRST`，保存`.class`文件到本地，之后重复加载类</li>
  *     <li>{@link ByteBuddyCreateClassTest#test23()}: redefine后，配合`CHILD_FIRST`加载类</li>
  *     <li>{@link ByteBuddyCreateClassTest#test24()}: 从指定 “jar包”, “文件目录”, “系统类加载器” 加载指定类</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test25()}: 清空指定类的所有方法的方法体(包含超类方法)</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test26()}: 清空指定类的当前类声明的所有方法的方法体(不包含超类方法)</li>
  *   </ol>
  * </p>
  *
@@ -621,5 +621,36 @@ public class ByteBuddyCreateClassTest {
                 .intercept(FixedValue.value(void.class))
                 .make()
                 .saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (25) 清空指定类的所有方法的方法体(包含超类方法)
+     */
+    @Test
+    public void test25() throws IOException {
+        DynamicType.Unloaded<SomethingClass> allMethodIncludeSuper = new ByteBuddy().redefine(SomethingClass.class)
+                // 拦截所有方法(包括超类方法)
+                .method(ElementMatchers.any())
+                // 根据方法返回值类型, 返回对应类型的默认值
+                .intercept(StubMethod.INSTANCE)
+                .name("com.example.AshiamdTest25")
+                .make();
+        // allMethodIncludeSuper.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (26) 清空指定类的当前类声明的所有方法的方法体(不包含超类方法)
+     */
+    @Test
+    public void test26() throws IOException, ClassNotFoundException {
+        DynamicType.Unloaded<SomethingClass> allMethod = new ByteBuddy().subclass(SomethingClass.class)
+                // 拦截所有目标类声明的方法(不包括超类方法)
+                .method(ElementMatchers.any().and(ElementMatchers.isDeclaredBy(SomethingClass.class)))
+                // 根据方法返回值类型, 返回对应类型的默认值
+                .intercept(StubMethod.INSTANCE)
+                // 若这里使用rebase或redefine, 则需要去掉.name(“全限制类名”), 覆盖原类后才能使清空方法体的逻辑生效
+                .name("com.example.AshiamdTest26")
+                .make();
+        // allMethod.saveIn(DemoTools.currentClassPathFile());
     }
 }

@@ -4,8 +4,8 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.description.ModifierReviewable;
 import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType;
-import net.bytebuddy.dynamic.loading.ByteArrayClassLoader;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
@@ -13,10 +13,13 @@ import net.bytebuddy.implementation.FixedValue;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.SuperMethodCall;
 import net.bytebuddy.implementation.bind.annotation.Morph;
+import net.bytebuddy.jar.asm.Type;
 import net.bytebuddy.matcher.ElementMatchers;
+import net.bytebuddy.pool.TypePool;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -50,6 +53,7 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test21()}: 默认类加载策略`WRAPPER`,保存`.class`文件到本地, 之后加载类</li>
  *     <li>{@link ByteBuddyCreateClassTest#test22()}: 类加载策略`CHILD_FIRST`，保存`.class`文件到本地，之后重复加载类</li>
  *     <li>{@link ByteBuddyCreateClassTest#test23()}: redefine后，配合`CHILD_FIRST`加载类</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test24()}: 从指定 “jar包”, “文件目录”, “系统类加载器” 加载指定类</li>
  *   </ol>
  * </p>
  *
@@ -579,5 +583,43 @@ public class ByteBuddyCreateClassTest {
         System.out.println("loaded01.hashCode() = " + loaded01.hashCode());
         // loaded02.hashCode() = 1620890840
         System.out.println("loaded02.hashCode() = " + loaded02.hashCode());
+    }
+
+    /**
+     * (24) 从指定 “jar包”, “文件目录”, “系统类加载器” 加载指定类
+     */
+    @Test
+    public void test24() throws IOException {
+        // 1. 指定需要扫描的jar包路径
+        ClassFileLocator jarPathLocator = ClassFileLocator.ForJarFile.of(new File("/Users/ashiamd/mydocs/dev-tools/apache-maven-3.9.3/repository/commons-io/commons-io/2.15.0/commons-io-2.15.0.jar"));
+        // 2. 指定需要扫描的.class文件所在路径
+        ClassFileLocator.ForFolder classPathLocator = new ClassFileLocator.ForFolder(new File("/Users/ashiamd/mydocs/docs/study/javadocument/javadocument/IDEA_project/ash_bytebuddy_study/bytebuddy_test/target/test-classes"));
+        // 3. 从系统类加载器中扫描类 (不加则找不到jdk自身的类)
+        ClassFileLocator classLoaderLocator = ClassFileLocator.ForClassLoader.ofSystemLoader();
+        // 整合 多个 自定义的类扫描路径
+        ClassFileLocator.Compound locatorCompound = new ClassFileLocator.Compound(jarPathLocator, classPathLocator, classLoaderLocator);
+        // locatorCompound 去掉 classLoaderLocator 后, 后续net.bytebuddy.ByteBuddy.redefine(ByteBuddy.java:886)往下调用时,
+        // 报错 net.bytebuddy.pool.TypePool$Resolution$NoSuchTypeException: Cannot resolve type description for java.lang.Object
+        // ClassFileLocator.Compound locatorCompound = new ClassFileLocator.Compound(jarPathLocator, classPathLocator);
+        // 类型池, 提供根据 全限制类名 从指定 类路径扫描范围内 获取 类描述对象 的方法
+        TypePool typePool = TypePool.Default.of(locatorCompound);
+        // 4. 从前面指定的扫描类范围中, 获取 “commons-io-2.15.0.jar” 内 FileUtils 类描述对象, resolve()不会触发类加载
+        TypeDescription jarPathTypeDescription = typePool.describe("org.apache.commons.io.FileUtils").resolve();
+        // 5. 获取 target下测试类路径的NothingClass类
+        TypeDescription classPathTypeDescription = typePool.describe("org.example.NothingClass").resolve();
+
+        // 6-1 redefine 指定 jar包内的 FileUtils 类, 并将生成的.class文件保存到本地
+        new ByteBuddy().redefine(jarPathTypeDescription, locatorCompound)
+                .method(ElementMatchers.named("current"))
+                .intercept(FixedValue.nullValue())
+                .make()
+                .saveIn(DemoTools.currentClassPathFile());
+
+        // 6-2 redefine 指定.class文件路径内的 NothingClass类, 并将生成的.class文件保存到本地
+        new ByteBuddy().redefine(classPathTypeDescription, locatorCompound)
+                .defineMethod("justVoid", void.class, Modifier.PUBLIC)
+                .intercept(FixedValue.value(void.class))
+                .make()
+                .saveIn(DemoTools.currentClassPathFile());
     }
 }

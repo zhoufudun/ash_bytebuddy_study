@@ -5,6 +5,8 @@ import net.bytebuddy.NamingStrategy;
 import net.bytebuddy.description.ModifierReviewable;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.loading.ByteArrayClassLoader;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.FixedValue;
@@ -44,6 +46,10 @@ import java.util.ArrayList;
  *     <li>{@link ByteBuddyCreateClassTest#test17()}: 通过@Morph动态修改方法入参</li>
  *     <li>{@link ByteBuddyCreateClassTest#test18()}: 对构造方法插桩</li>
  *     <li>{@link ByteBuddyCreateClassTest#test19()}: 对静态方法插桩</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test20()}: 默认类加载策略`WRAPPER`, 不保存`.class`文件到本地, 重复加载类</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test21()}: 默认类加载策略`WRAPPER`,保存`.class`文件到本地, 之后加载类</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test22()}: 类加载策略`CHILD_FIRST`，保存`.class`文件到本地，之后重复加载类</li>
+ *     <li>{@link ByteBuddyCreateClassTest#test23()}: redefine后，配合`CHILD_FIRST`加载类</li>
  *   </ol>
  * </p>
  *
@@ -471,5 +477,107 @@ public class ByteBuddyCreateClassTest {
         Method sayWhatMethod = loadedClazz.getMethod("sayWhat", String.class);
         sayWhatMethod.invoke(null, "hello world");
         // sayWhatUnload.saveIn(DemoTools.currentClassPathFile());
+    }
+
+    /**
+     * (20) 默认类加载策略`WRAPPER`, 不保存`.class`文件到本地, 重复加载类
+     */
+    @Test
+    public void test20() {
+        DynamicType.Unloaded<SomethingClass> sayWhatUnload = new ByteBuddy().rebase(SomethingClass.class)
+                .method(ElementMatchers.named("sayWhat").and(ModifierReviewable.OfByteCodeElement::isStatic))
+                .intercept(MethodDelegation.to(new SomethingInterceptor06()))
+                .name("com.example.AshiamdTest20")
+                .make();
+        Class<? extends SomethingClass> loaded01 = sayWhatUnload.load(getClass().getClassLoader()).getLoaded();
+        Class<? extends SomethingClass> loaded02 = sayWhatUnload.load(getClass().getClassLoader()).getLoaded();
+        Assert.assertNotEquals(loaded01, loaded02);
+        // loaded01 = class com.example.AshiamdTest20
+        System.out.println("loaded01 = " + loaded01);
+        // loaded02 = class com.example.AshiamdTest20
+        System.out.println("loaded02 = " + loaded02);
+        // loaded01.hashCode() = 589273327
+        System.out.println("loaded01.hashCode() = " + loaded01.hashCode());
+        // loaded02.hashCode() = 609656250
+        System.out.println("loaded02.hashCode() = " + loaded02.hashCode());
+    }
+
+    /**
+     * (21) 默认类加载策略`WRAPPER`,保存`.class`文件到本地, 之后加载类
+     */
+    @Test
+    public void test21() throws IOException {
+        DynamicType.Unloaded<SomethingClass> sayWhatUnload = new ByteBuddy().rebase(SomethingClass.class)
+                .method(ElementMatchers.named("sayWhat").and(ModifierReviewable.OfByteCodeElement::isStatic))
+                .intercept(MethodDelegation.to(new SomethingInterceptor06()))
+                .name("com.example.AshiamdTest21")
+                .make();
+        sayWhatUnload.saveIn(DemoTools.currentClassPathFile());
+        Assert.assertThrows(IllegalStateException.class,
+                // 会抛出 java.lang.IllegalStateException: Class already loaded: class com.example.AshiamdTest21
+                () -> sayWhatUnload.load(getClass().getClassLoader()).getLoaded());
+    }
+
+    /**
+     * (22) 类加载策略`CHILD_FIRST`，保存`.class`文件到本地，之后重复加载类
+     */
+    @Test
+    public void test22() throws IOException {
+        DynamicType.Unloaded<SomethingClass> sayWhatUnload = new ByteBuddy().rebase(SomethingClass.class)
+                .method(ElementMatchers.named("sayWhat").and(ModifierReviewable.OfByteCodeElement::isStatic))
+                .intercept(MethodDelegation.to(new SomethingInterceptor06()))
+                .name("com.example.AshiamdTest22")
+                .make();
+        sayWhatUnload.saveIn(DemoTools.currentClassPathFile());
+        Class<? extends SomethingClass> loaded01 = sayWhatUnload.load(getClass().getClassLoader(),
+                ClassLoadingStrategy.Default.CHILD_FIRST).getLoaded();
+        Class<? extends SomethingClass> loaded02 = sayWhatUnload.load(getClass().getClassLoader(),
+                ClassLoadingStrategy.Default.CHILD_FIRST).getLoaded();
+        Assert.assertNotEquals(loaded01, loaded02);
+        // loaded01 = class com.example.AshiamdTest22
+        System.out.println("loaded01 = " + loaded01);
+        // loaded02 = class com.example.AshiamdTest22
+        System.out.println("loaded02 = " + loaded02);
+        // loaded01.hashCode() = 1293680734
+        System.out.println("loaded01.hashCode() = " + loaded01.hashCode());
+        // loaded02.hashCode() = 611520720
+        System.out.println("loaded02.hashCode() = " + loaded02.hashCode());
+    }
+
+    /**
+     * (23) redefine后，配合`CHILD_FIRST`加载类
+     */
+    @Test
+    public void test23() throws IOException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        DynamicType.Unloaded<NothingClass> redefine = new ByteBuddy().redefine(NothingClass.class)
+                .defineMethod("returnBlankString", String.class, Modifier.PUBLIC | Modifier.STATIC)
+                .withParameters(String.class, Integer.class)
+                .intercept(FixedValue.value(""))
+                .make();
+
+        // redefine.saveIn(DemoTools.currentClassPathFile());
+
+        Class<? extends NothingClass> loaded01 = redefine.load(getClass().getClassLoader(), ClassLoadingStrategy.Default.CHILD_FIRST).getLoaded();
+        // loaded01 = class org.example.NothingClass
+        System.out.println("loaded01 = " + loaded01);
+        // loaded01.equals(NothingClass.class) = false
+        System.out.println("loaded01.equals(NothingClass.class) = " + loaded01.equals(NothingClass.class));
+        // loaded01.getClassLoader() = net.bytebuddy.dynamic.loading.ByteArrayClassLoader$ChildFirst@23348b5d
+        System.out.println("loaded01.getClassLoader() = " + loaded01.getClassLoader());
+        // NothingClass.class.getClassLoader() = jdk.internal.loader.ClassLoaders$AppClassLoader@4e0e2f2a
+        System.out.println("NothingClass.class.getClassLoader() = " + NothingClass.class.getClassLoader());
+        // loaded01.getDeclaredConstructor().newInstance() instanceof NothingClass = false
+        System.out.println("loaded01.getDeclaredConstructor().newInstance() instanceof NothingClass = " +
+                (loaded01.getDeclaredConstructor().newInstance() instanceof NothingClass));
+
+        Class<? extends NothingClass> loaded02 = redefine.load(getClass().getClassLoader(), ClassLoadingStrategy.Default.CHILD_FIRST).getLoaded();
+        // loaded02 = class org.example.NothingClass
+        System.out.println("loaded02 = " + loaded02);
+        // loaded01.equals(loaded02) = false
+        System.out.println("loaded01.equals(loaded02) = " + loaded01.equals(loaded02));
+        // loaded01.hashCode() = 1725008249
+        System.out.println("loaded01.hashCode() = " + loaded01.hashCode());
+        // loaded02.hashCode() = 1620890840
+        System.out.println("loaded02.hashCode() = " + loaded02.hashCode());
     }
 }

@@ -13,6 +13,7 @@
         <module>bytebuddy_test</module>
         <module>simple_jar</module>
         <module>jdk-agent</module>
+        <module>instance-method-agent</module>
     </modules>
 
     <properties>

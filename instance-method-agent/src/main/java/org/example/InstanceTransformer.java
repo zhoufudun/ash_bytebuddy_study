@@ -5,6 +5,7 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.utility.JavaModule;
 
 import java.security.ProtectionDomain;
@@ -13,7 +14,7 @@ import static net.bytebuddy.matcher.ElementMatchers.*;
 
 /**
  * 针对 实例 方法进行 修改/增强的 类转换器 <br/>
- * 同理, 某个类 将被加载到JVM 前, 进入transform方法
+ * 某个类被 {@link AgentBuilder#type(ElementMatcher)}匹配, 将要被类加载时, 进入transform方法
  *
  * @author : Ashiamd email: ashiamd@foxmail.com
  * @date : 2023/12/10 6:06 PM
@@ -35,10 +36,7 @@ public class InstanceTransformer implements AgentBuilder.Transformer {
                                             ClassLoader classLoader,
                                             JavaModule module,
                                             ProtectionDomain protectionDomain) {
-        DynamicType.Builder.MethodDefinition.ReceiverTypeDefinition<?> result = builder
-                .method(not(isStatic()).and(isAnnotatedWith(nameStartsWith("org.example.Ash").and(nameEndsWith("Log")))))
+        return builder.method(not(isStatic()).and(isAnnotatedWith(nameStartsWith("org.example.Ash").and(nameEndsWith("Log")))))
                 .intercept(MethodDelegation.to(new InstanceInterceptor()));
-        // 这里不能直接返回 builder, 因为byte buddy库中的类大都是不可变的 (也就是大多数链式方法其实对原对象无变动, 而是返回一个新对象)
-        return result;
     }
 }

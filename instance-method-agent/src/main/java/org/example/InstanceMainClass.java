@@ -1,7 +1,7 @@
 package org.example;
 
 /**
- * 入口类, 启动几个线程执行方法, 观察 java agent修改字节码的效果
+ * 入口类, 观察 java agent修改字节码的效果
  *
  * @author : Ashiamd email: ashiamd@foxmail.com
  * @date : 2023/12/10 4:57 PM

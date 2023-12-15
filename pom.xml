@@ -14,6 +14,8 @@
         <module>simple_jar</module>
         <module>jdk-agent</module>
         <module>instance-method-agent</module>
+        <module>static-method-agent</module>
+        <module>constructor-method-agent</module>
     </modules>
 
     <properties>

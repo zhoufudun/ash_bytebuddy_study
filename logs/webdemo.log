@@ -1,0 +1,178 @@
+23:22:44.723 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:22:44.739 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 12072 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:22:44.740 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:22:45.878 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+23:22:45.886 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+23:22:45.886 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:22:45.886 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:22:45.971 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:22:45.971 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1195 ms
+23:22:46.226 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:22:46.299 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:22:46.311 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+23:22:46.322 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+23:22:46.327 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 1.879 seconds (JVM running for 2.232)
+23:23:37.637 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:23:37.649 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 15040 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:23:37.650 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:23:39.257 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+23:23:39.267 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+23:23:39.267 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:23:39.267 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:23:39.364 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:23:39.364 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1664 ms
+23:23:39.674 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:23:39.751 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:23:39.763 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+23:23:39.781 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+23:23:39.789 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.443 seconds (JVM running for 3.204)
+23:25:45.827 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:25:45.839 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 16556 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:25:45.840 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:25:47.457 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:25:47.465 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:25:47.466 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:25:47.466 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:25:47.563 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:25:47.563 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1666 ms
+23:25:47.818 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:25:47.895 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:25:47.907 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:25:47.922 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:25:47.928 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.391 seconds (JVM running for 3.18)
+23:25:52.520 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:25:52.521 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:25:52.521 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:29:52.601 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:29:52.615 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 18668 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:29:52.616 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:29:54.156 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:29:54.165 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:29:54.166 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:29:54.166 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:29:54.266 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:29:54.266 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1598 ms
+23:29:54.539 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:29:54.617 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:29:54.629 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:29:54.646 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:29:54.656 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.345 seconds (JVM running for 3.227)
+23:30:04.926 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:30:04.927 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:30:04.927 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:41:50.343 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:41:50.363 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 6288 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:41:50.364 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:41:52.177 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:41:52.187 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:41:52.188 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:41:52.188 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:41:52.302 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:41:52.302 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1871 ms
+23:41:52.571 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:41:52.644 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:41:52.656 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:41:52.669 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:41:52.676 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.613 seconds (JVM running for 3.329)
+23:41:57.045 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:41:57.045 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:41:57.046 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+23:44:37.725 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:44:37.739 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 8684 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:44:37.740 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:44:39.381 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:44:39.391 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:44:39.392 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:44:39.392 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:44:39.487 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:44:39.487 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1700 ms
+23:44:39.772 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:44:39.858 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:44:39.874 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:44:39.891 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:44:39.899 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.459 seconds (JVM running for 3.218)
+23:44:45.452 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:44:45.452 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:44:45.452 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:45:00.335 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:45:00.362 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 328 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:45:00.363 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:45:02.160 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:45:02.168 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:45:02.169 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:45:02.169 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:45:02.299 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:45:02.299 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1886 ms
+23:45:02.598 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:45:02.677 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:45:02.691 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:45:02.709 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:45:02.715 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.725 seconds (JVM running for 3.914)
+23:45:18.069 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:45:18.084 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 16200 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:45:18.084 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:45:38.450 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:45:38.459 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:45:38.459 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:45:38.459 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:45:38.570 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:45:38.571 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 20440 ms
+23:45:38.821 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:45:38.899 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:45:38.913 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:45:38.931 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:45:38.937 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 21.239 seconds (JVM running for 22.244)
+23:45:48.866 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:45:48.867 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:45:48.867 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:46:02.974 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:46:02.983 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 15568 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:46:02.984 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:46:04.065 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:46:04.073 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:46:04.073 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:46:04.074 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:46:04.166 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:46:04.166 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1144 ms
+23:46:04.392 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:46:04.450 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:46:04.461 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:46:04.474 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:46:04.479 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 1.744 seconds (JVM running for 2.084)
+23:46:08.048 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:46:08.048 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:46:08.049 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+23:47:29.137 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:47:29.146 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 3700 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:47:29.147 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:47:30.228 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:47:30.236 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:47:30.237 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:47:30.237 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:47:30.327 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:47:30.327 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1143 ms
+23:47:30.583 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:47:30.647 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:47:30.659 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:47:30.670 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:47:30.675 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 1.78 seconds (JVM running for 2.148)
+23:47:57.157 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:47:57.157 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:47:57.157 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+23:48:23.095 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+23:48:23.112 [main] INFO  c.example.webdemo.WebdemoApplication - Starting WebdemoApplication using Java 1.8.0_311 on WIN-20230608VMY with PID 18824 (D:\study\Desktop\Desktop\study\ash_bytebuddy_study\web-demo\target\classes started by Administrator in D:\study\Desktop\Desktop\study\ash_bytebuddy_study)
+23:48:23.113 [main] INFO  c.example.webdemo.WebdemoApplication - No active profile set, falling back to 1 default profile: "default"
+23:48:24.717 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:48:24.725 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:48:24.725 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:48:24.725 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+23:48:24.828 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:48:24.828 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1654 ms
+23:48:25.163 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+23:48:25.234 [main] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+23:48:25.249 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:48:25.268 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:48:25.275 [main] INFO  c.example.webdemo.WebdemoApplication - Started WebdemoApplication in 2.473 seconds (JVM running for 3.199)
+23:48:29.166 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:48:29.166 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:48:29.167 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms

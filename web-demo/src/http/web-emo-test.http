@@ -1,0 +1,47 @@
+### 线程 cpu-100  测试启动
+GET http://192.168.140.128:8081/test/thread/startCpuTest
+
+### 线程 cpu-100  测试停止
+GET http://192.168.140.128:8081/test/thread/stopCpuTest
+
+### 线程 synchronized
+GET http://192.168.140.128:8081/test/thread/wait01
+
+### 线程 synchronized
+GET http://192.168.140.128:8081/test/thread/wait02
+
+### 内存 startMemoryTest
+GET http://192.168.140.128:8081/test/memory/startMemoryTest
+
+### 内存 stopMemoryTest
+GET http://192.168.140.128:8081/test/memory/stopMemoryTest
+
+### 日志 testLogger
+GET http://192.168.140.128:8081/test/logger/testLogger
+
+### 方法 testStack
+GET http://192.168.140.128:8081/test/method/testStack
+
+### 方法 testTrace
+GET http://192.168.140.128:8081/test/method/testTrace
+
+### 方法 testWatch type=return
+GET http://192.168.140.128:8081/test/method/testWatch?type=return&msg=TestReturn
+
+### 方法 testWatch type=throw
+GET http://192.168.140.128:8081/test/method/testWatch?type=throw&msg=TestThrow
+
+### 方法 testCall
+GET http://192.168.140.128:8081/test/method/testCall?msg=inputMsg
+
+### 方法 testCall
+POST http://127.0.0.1:8081/test/method/testCall
+Content-Type: application/x-www-form-urlencoded
+
+type=KKK%2bI%2b%2b&sign=KIJKUUHJHJ%2b%2F%2F%2b=&complete_urls=%5B%22http%3A%2F%2Fdocs.turingos.cn%2Fai-wifi%2Fasr%2F%22%2C+%22http%3A%2F%2Fdocs.turingos.cn%2Fai-wifi%2Ftts%2F%22%5D
+
+###
+### 方法 testCall
+GET http://127.0.0.1:8081/test/method/testCall?msg=inputMsg&sign=KIJKUUHJHJ///+//+=&complete_urls=%5B%22http%3A%2F%2Fdocs.turingos.cn%2Fai-wifi%2Fasr%2F%22%2C%22http%3A%2F%2Fdocs.turingos.cn%2Fai-wifi%2Ftts%2F%22%5D
+
+###

@@ -24,6 +24,22 @@
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.29.2-GA</version>
+        </dependency>
+        <!-- SLF4J API without "provided" scope -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -38,7 +54,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.MainClass</mainClass>
+                            <mainClass>org.example.zfd.AgentDemo</mainClass>
                             <!-- 自动添加META-INF/MANIFEST.MF文件 -->
                             <addClasspath>true</addClasspath>
                             <!-- 将依赖的存放位置添加到 MANIFEST.MF 中-->
@@ -46,8 +62,9 @@
                         </manifest>
                         <manifestEntries>
                             <!-- MANIFEST.MF 配置项 -->
-                            <Premain-Class>org.example.PreMainClass</Premain-Class>
+                            <Premain-Class>org.example.zfd.PreMainClass</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <!--类可以被多次transformer-->
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
                         </manifestEntries>
@@ -64,6 +81,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

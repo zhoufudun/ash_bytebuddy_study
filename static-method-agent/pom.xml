@@ -38,7 +38,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.StaticMain</mainClass>
+                            <mainClass>org.example.zfd.StaticMethodPremain</mainClass>
                             <!-- 自动添加META-INF/MANIFEST.MF文件 -->
                             <addClasspath>true</addClasspath>
                             <!-- 将依赖的存放位置添加到 MANIFEST.MF 中-->
@@ -46,7 +46,7 @@
                         </manifest>
                         <manifestEntries>
                             <!-- MANIFEST.MF 配置项 -->
-                            <Premain-Class>org.example.StaticPremain</Premain-Class>
+                            <Premain-Class>org.example.zfd.StaticMethodPremain</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
